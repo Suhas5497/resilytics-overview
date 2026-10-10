@@ -1,553 +1,82 @@
-# Resilytics
+<div align="center">
 
-<<<<<<< HEAD
-Resilytics is a sales decision-intelligence SaaS platform for founders, CFOs, and strategy teams.
+<img src="assets/banner.svg" width="100%" alt="Resilytics — decision-intelligence SaaS, live at resilytics.in.">
 
-It combines:
-- guided data onboarding
-- dataset trust and ingestion diagnostics
-- executive health and risk analysis
-- scenario and shock simulation
-- board-ready reporting
-- role-aware product workflows
+<img src="https://img.shields.io/badge/FastAPI-0a0e1a?style=for-the-badge&logo=fastapi&logoColor=c9a96e" alt="FastAPI">
+<img src="https://img.shields.io/badge/PostgreSQL-0a0e1a?style=for-the-badge&logo=postgresql&logoColor=c9a96e" alt="PostgreSQL">
+<img src="https://img.shields.io/badge/Redis-0a0e1a?style=for-the-badge&logo=redis&logoColor=c9a96e" alt="Redis">
+<img src="https://img.shields.io/badge/DuckDB-0a0e1a?style=for-the-badge&logo=duckdb&logoColor=c9a96e" alt="DuckDB">
+<img src="https://img.shields.io/badge/React-0a0e1a?style=for-the-badge&logo=react&logoColor=c9a96e" alt="React">
+<img src="https://img.shields.io/badge/TypeScript-0a0e1a?style=for-the-badge&logo=typescript&logoColor=c9a96e" alt="TypeScript">
+<img src="https://img.shields.io/badge/Docker-0a0e1a?style=for-the-badge&logo=docker&logoColor=c9a96e" alt="Docker">
 
-It is meant to help teams decide what to do next from sales and revenue data, not replace a BI dashboard with another dashboard.
+</div>
 
-The repository is a full-stack application with a FastAPI backend and a Vite/React frontend.
+<div align="center">
 
-## Product Overview
+<b><a href="https://resilytics.in">🌐 resilytics.in</a></b> &nbsp;·&nbsp; <b><a href="https://drive.google.com/file/d/1vxAe692qf56R729f54DHMTx1ZgMvfiDG/view?usp=sharing">▶ Watch the demo</a></b>
 
-Resilytics is designed around a Decision OS workflow:
+</div>
 
-1. Connect or upload company data
-2. Validate and model the dataset
-3. Review business health and risk drivers
-4. Run shock and scenario analysis
-5. Export decision-ready reports
+> **In one line:** Resilytics helps founders, CFOs and strategy teams decide what to do next from their sales and revenue data. It finds where the business is going wrong, which areas to improve first, and what happens under different scenarios.
 
-The current launch posture is a founder-led soft launch for CSV-first SMB and light mid-market design partners, not a broad enterprise rollout.
+## The problem
 
-## Tech Stack
+Most companies have dashboards but still struggle with three questions:
 
-### Backend
-- FastAPI
-- Python
-- PostgreSQL
-- Redis
-- RQ workers
-- DuckDB analytics warehouse
-- SQLAlchemy
+1. **Where are we going wrong?** Which products, regions or customers are dragging revenue down?
+2. **What should we fix first?** Which risks matter most for revenue?
+3. **What happens if…?** What would a price change, a lost customer or a market shock do to us?
 
-### Frontend
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Query
-- React Router
-- Recharts
+Resilytics answers them in one workflow, rather than adding another dashboard.
 
-## Core Capabilities
-
-- Zero-data onboarding with sample and live-data paths
-- CSV / Excel upload workflow with schema preview and validation
-- Connector onboarding with lifecycle-aware sync feedback
-- Dataset versioning with ingestion transparency and rejected-row diagnostics
-- Multi-tenant warehouse access with SQL-layer tenant enforcement
-- Executive Decision OS surfaces:
-  - Business Health
-  - Risk Drivers
-  - Shock Simulator
-  - Decision Scenarios
-  - Reports
-- Export and print support for executive reporting
-- Demo-state preparation and tenant reset tooling
-
-## Repository Structure
+## How it works
 
 ```text
-.
-|- backend/        FastAPI app, workers, migrations, tests
-|- frontend/       React + TypeScript UI
-|- docs/           Runbooks, release checklists, demo prep docs
-|- scripts/        Local dev startup / shutdown helpers
-|- .env.example    Backend + infrastructure environment template
-|- docker-compose.yml
-|- docker-compose.streaming.yml
+Upload / connect data  →  Validate & model  →  Business health
+        →  Risk drivers  →  Shock & scenario simulation  →  Board-ready report
 ```
 
-## Prerequisites
+| Module | What it does |
+| --- | --- |
+| **Data onboarding** | CSV/Excel upload with schema detection, preview and validation; rejected rows are explained, not hidden |
+| **Business Health** | Executive summary of performance and structural stability |
+| **Risk Drivers** | Concentration and risk metrics (HHI, VaR-95, modified Altman Z-Score) that show what is driving risk |
+| **Shock Simulator** | Monte Carlo simulation of downside shocks |
+| **Decision Scenarios** | Side-by-side comparison of strategic options |
+| **Reports** | Exportable, board-ready decision summaries |
 
-Before running locally, make sure you have:
+## Architecture
 
-- Python 3.12+
-- Node.js and npm
-- Docker Desktop
-- PowerShell
+Built solo as a modular monolith with clear service boundaries.
 
-## Environment Setup
+| Layer | Technology |
+| --- | --- |
+| API | FastAPI (Python) |
+| Transactional store | PostgreSQL with SQL-layer tenant isolation |
+| Jobs and caching | Redis + RQ async workers |
+| Analytics warehouse | DuckDB |
+| Frontend | React, TypeScript, Vite, Tailwind, React Query, Recharts |
+| Delivery | Docker, explicit database migrations, automated release checks |
 
-Create local environment files before starting the app:
+**Engineering highlights**
 
-1. Copy root env:
+- Multi-tenant by design, with tenant isolation enforced in the SQL layer.
+- Dataset versioning with ingestion stage counts, rejection reasons and trust indicators.
+- Heavy simulations run as async jobs so the UI stays responsive.
+- Demo-state tooling resets a tenant to zero-data, sample-data or live-data presets.
 
-```powershell
-Copy-Item .env.example .env
-```
+## Status
 
-2. Copy frontend env:
+Live in a founder-led soft launch for SMB and light mid-market design partners. Current focus: ingestion scalability, observability and production hardening.
 
-```powershell
-Copy-Item .\frontend\.env.example .\frontend\.env
-```
+## About this repository
 
-3. Fill in required values in `.env`.
-
-Important:
-- Never commit real secrets
-- Use `.env.example` and `frontend/.env.example` as templates only
-- Local standalone defaults use dedicated ports so Resilytics can coexist with older local stacks:
-  - Postgres `5433`
-  - Redis `6380`
-  - Backend API `8001`
-  - Frontend dev server `5174`
-
-## Recommended Local Development Command
-
-From the repository root:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\dev-start.ps1
-```
-
-This will:
-- validate the local environment
-- start Postgres and Redis with Docker
-- run database migrations
-- start the backend API
-- start the queue worker
-- start the frontend dev server
-
-Useful companion commands:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\dev-check.ps1
-powershell -ExecutionPolicy Bypass -File .\scripts\dev-start.ps1 -CheckOnly
-powershell -ExecutionPolicy Bypass -File .\scripts\dev-stop.ps1
-```
-
-To stop infrastructure as well:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\dev-stop.ps1 -StopInfra
-```
-
-## Manual Local Startup
-
-If you prefer to start services manually:
-
-### 1. Start infrastructure
-
-```powershell
-docker compose up -d db redis
-```
-
-If event streaming is enabled:
-
-```powershell
-docker compose -f docker-compose.yml -f docker-compose.streaming.yml up -d db redis redpanda
-```
-
-### 2. Run migrations
-
-```powershell
-cd backend
-..\.venv\Scripts\python.exe -m app.migrations.cli migrate
-```
-
-### 3. Start backend API
-
-```powershell
-..\.venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
-```
-
-### 4. Start worker
-
-```powershell
-..\.venv\Scripts\python.exe -m app.workers.run_worker
-```
-
-### 5. Start frontend
-
-```powershell
-cd ..\frontend
-npm run dev
-```
-
-## Health Checks
-
-Backend:
-
-```powershell
-Invoke-WebRequest http://127.0.0.1:8001/health/live -UseBasicParsing
-```
-
-Frontend:
-- open `http://127.0.0.1:5174`
-
-## Database Migrations
-
-Resilytics uses an explicit migration workflow.
-
-Run migrations manually with:
-
-```powershell
-cd backend
-..\.venv\Scripts\python.exe -m app.migrations.cli migrate
-```
-
-Check schema status with:
-
-```powershell
-..\.venv\Scripts\python.exe -m app.migrations.cli status
-```
-
-The API verifies schema compatibility at startup but does not automatically mutate schema in production.
-
-## Testing and Build Validation
-
-### Backend tests
-
-```powershell
-cd backend
-..\.venv\Scripts\python.exe -m pytest tests -q
-```
-
-### Frontend lint
-
-```powershell
-cd frontend
-npm run lint
-```
-
-### Frontend production build
-
-```powershell
-npm run build
-```
-
-### Release check
-
-```powershell
-cd backend
-..\.venv\Scripts\python.exe .\scripts\release_check.py
-```
-
-## Demo Preparation
-
-Resilytics includes tenant-scoped demo reset tooling so repeated demos do not depend on manual cleanup.
-
-Examples:
-
-```powershell
-cd backend
-..\.venv\Scripts\python.exe .\scripts\demo_state.py list-companies
-..\.venv\Scripts\python.exe .\scripts\demo_state.py reset-demo-tenant --company-id 1
-..\.venv\Scripts\python.exe .\scripts\demo_state.py prepare-demo-state --company-id 1 --preset zero-data
-..\.venv\Scripts\python.exe .\scripts\demo_state.py prepare-demo-state --company-id 1 --preset sample-data
-..\.venv\Scripts\python.exe .\scripts\demo_state.py prepare-demo-state --company-id 1 --preset live-data --file "E:\data\demo.csv"
-```
-
-See:
-- [docs/DEMO_PREPARATION.md](docs/DEMO_PREPARATION.md)
-
-## Documentation
-
-Useful docs in this repository:
-
-- [docs/RUNBOOK_Step_By_Step.md](docs/RUNBOOK_Step_By_Step.md)
-- [docs/RELEASE_READINESS_CHECKLIST.md](docs/RELEASE_READINESS_CHECKLIST.md)
-- [docs/DEMO_PREPARATION.md](docs/DEMO_PREPARATION.md)
-
-## Optional Assistant / LLM Configuration
-
-The platform can run without OpenAI.
-
-If you want deterministic-only behavior:
-
-```bash
-LLM_ENABLED=false
-```
-
-If you enable OpenAI locally, configure the relevant env values in `.env`.
-
-## Current Product State
-
-The platform is strongest in a controlled launch scope:
-
-- core workflows are implemented
-- onboarding and data-state handling are explicit
-- dataset trust, provenance, and rejection transparency are visible
-- async job infrastructure is in place
-- Decision OS pages are structured and role-aware
-
-Remaining work is concentrated in operational hardening, browser validation, and real-user pilot proof rather than missing core architecture.
-
-## Contributing
-
-When making changes:
-
-- keep secrets out of version control
-- run backend tests after backend changes
-- run frontend lint and build after frontend changes
-- prefer extending existing services and workflows instead of creating parallel subsystems
-- preserve data-state, trust, and tenant-isolation behavior
-=======
-Resilytics is a Decision Intelligence platform that transforms raw business data into actionable strategic insights using a structured pipeline of ingestion, modeling, simulation, and decision analysis.
-
-The system is designed to help founders, analysts, and executives understand business health, identify risk drivers, simulate scenarios, and make better decisions.
+This is the **public overview** of Resilytics. The full application source is kept private; this repo contains the README, licence and backend container setup. For a walkthrough, see the [demo video](https://drive.google.com/file/d/1vxAe692qf56R729f54DHMTx1ZgMvfiDG/view?usp=sharing) or [get in touch](mailto:suhasdhamapurkar1710@gmail.com).
 
 ---
 
-## Demo Preview
-
-Demo Video:https://drive.google.com/file/d/1vxAe692qf56R729f54DHMTx1ZgMvfiDG/view?usp=sharing
-
-The demo covers:
-
-* onboarding and data upload
-* dataset validation and modeling
-* Business Health overview
-* Risk Drivers analysis
-* Shock Simulation
-* Decision Scenarios
-* executive reporting
-
----
-
-## Product Overview
-
-Resilytics follows a structured decision workflow:
-
-Data → Insight → Risk Drivers → Simulation → Decision
-
-Core modules:
-
-* Business Health
-  Executive-level summary of company performance and structural stability
-
-* Risk Drivers
-  Identification of key factors impacting performance and risk
-
-* Shock Simulator
-  Simulation of external shocks and downside scenarios
-
-* Decision Scenarios
-  Strategy comparison and outcome modeling
-
-* Reports
-  Boardroom-ready summaries and decision outputs
-
----
-
-## Architecture Overview
-
-Resilytics is built as a modular monolith with clear service boundaries.
-
-Backend:
-
-* FastAPI for API layer
-* PostgreSQL for transactional storage
-* Redis for queue and caching
-* RQ workers for async processing
-* DuckDB for analytical workloads
-
-Frontend:
-
-* React with TypeScript
-* Vite build system
-* React Router for navigation
-* React Query for data fetching
-
-Core services:
-
-* ingestion pipeline
-* canonical schema mapping
-* warehouse service
-* simulation engine
-* async job orchestration
-
----
-
-## Key Features
-
-* Structured data ingestion with validation and schema detection
-* Dataset versioning with full transparency and rejection tracking
-* Multi-tenant architecture with tenant-safe query enforcement
-* Monte Carlo simulation and forecasting engine
-* Async job execution for heavy workloads
-* Decision-focused UI (Decision OS)
-* Exportable executive reports
-
----
-
-## Data Pipeline
-
-Resilytics processes data through the following stages:
-
-1. Upload or connect data source
-2. Schema detection and mapping
-3. Canonical transformation
-4. Modeling and feature generation
-5. Warehouse sync
-6. Decision intelligence generation
-
-The system provides:
-
-* ingestion stage counts
-* rejection reasons
-* modeling coverage metrics
-* trust status indicators
-
----
-
-## Project Structure
-
-backend/
-
-* api/
-* services/
-* models/
-* workers/
-* warehouse/
-* ingestion/
-
-frontend/
-
-* src/
-* components/
-* pages/
-* app/
-
-infrastructure/
-
-* docker-compose
-* environment configuration
-
----
-
-## Getting Started
-
-### Prerequisites
-
-* Python 3.10+
-* Node.js 18+
-* PostgreSQL
-* Redis
-
----
-
-### Backend Setup
-
-cd backend
-
-pip install -r requirements.txt
-
-alembic upgrade head
-
-uvicorn app.main:app --reload
-
----
-
-### Worker
-
-rq worker
-
----
-
-### Frontend Setup
-
-cd frontend
-
-npm install
-
-npm run dev
-
----
-
-## Environment Variables
-
-Configure the following:
-
-DATABASE_URL=your_postgres_url
-REDIS_URL=your_redis_url
-
-Additional variables may be required depending on environment setup.
-
----
-
-## Running with Docker
-
-docker-compose up --build
-
-This will start:
-
-* API server
-* PostgreSQL
-* Redis
-* workers
-
----
-
-## Testing
-
-Backend tests:
-
-pytest
-
-Frontend checks:
-
-npm run lint
-npm run build
-
----
-
-## Current Status
-
-Resilytics is a production-ready startup beta with:
-
-* stable ingestion pipeline
-* async job execution
-* simulation engine
-* decision-oriented UI
-
-Ongoing improvements focus on:
-
-* ingestion scalability
-* performance optimization
-* operational observability
-* production hardening
-
----
-
-## Roadmap
-
-* streaming ingestion for large datasets
-* improved warehouse scalability
-* enhanced observability and monitoring
-* frontend performance optimization
-* expanded simulation governance
-
----
-
-## Use Cases
-
-* business performance analysis
-* risk identification
-* scenario planning
-* strategic decision support
-* executive reporting
-
----
->>>>>>> origin/main
-
+<div align="center">
+<sub>Built by <a href="https://github.com/Suhas5497"><b>Suhas Dhamapurkar</b></a> — Data Analyst &amp; AI/ML Engineer · Founder of <a href="https://resilytics.in">Resilytics</a><br>
+<a href="https://linkedin.com/in/suhas-1710d">LinkedIn</a> · <a href="https://portfolio-git-main-suhasdhamapurkar1710-gmailcoms-projects.vercel.app/">Portfolio</a> · <a href="mailto:suhasdhamapurkar1710@gmail.com">Email</a></sub>
+</div>
