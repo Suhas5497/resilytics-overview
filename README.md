@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" width="100%" alt="Resilytics — decision-intelligence SaaS, live at resilytics.in.">
+<img src="assets/banner.svg" width="100%" alt="Resilytics — a data + AI decision-intelligence project, live at resilytics.in.">
 
 <img src="https://img.shields.io/badge/FastAPI-0a0e1a?style=for-the-badge&logo=fastapi&logoColor=c9a96e" alt="FastAPI">
 <img src="https://img.shields.io/badge/PostgreSQL-0a0e1a?style=for-the-badge&logo=postgresql&logoColor=c9a96e" alt="PostgreSQL">
@@ -48,7 +48,7 @@ Upload / connect data  →  Validate & model  →  Business health
 
 ## Architecture
 
-Built solo as a modular monolith with clear service boundaries.
+Built end to end as a modular monolith with clear service boundaries.
 
 | Layer | Technology |
 | --- | --- |
@@ -68,7 +68,7 @@ Built solo as a modular monolith with clear service boundaries.
 
 ## Status
 
-Live in a founder-led soft launch for SMB and light mid-market design partners. Current focus: ingestion scalability, observability and production hardening.
+Live at resilytics.in and tested on 4 years of synthetic company data. An innovative project where I applied both data analytics (SQL, Python, statistical risk models) and AI (an assistant grounded in the analysed data).
 
 ## About this repository
 
@@ -77,6 +77,6 @@ This is the **public overview** of Resilytics. The full application source is ke
 ---
 
 <div align="center">
-<sub>Built by <a href="https://github.com/Suhas5497"><b>Suhas Dhamapurkar</b></a> — Data Analyst &amp; AI/ML Engineer · Founder of <a href="https://resilytics.in">Resilytics</a><br>
+<sub>Built by <a href="https://github.com/Suhas5497"><b>Suhas Dhamapurkar</b></a> — Data Analyst &amp; AI/ML Engineer · Open to full-time Data Analyst roles<br>
 <a href="https://linkedin.com/in/suhas-1710d">LinkedIn</a> · <a href="https://portfolio-git-main-suhasdhamapurkar1710-gmailcoms-projects.vercel.app/">Portfolio</a> · <a href="mailto:suhasdhamapurkar1710@gmail.com">Email</a></sub>
 </div>
